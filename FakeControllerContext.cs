@@ -24,12 +24,15 @@ namespace FlickTrap.Web.Specs.MvcFakes
         {
         }
 
+        public FakeControllerContext(ControllerBase controller, HttpSessionStateBase session)
+            : this(controller, null, null, null, null, null, GetSessionCollection(session))
+        {
+        }
 
         public FakeControllerContext( ControllerBase controller, NameValueCollection formParams ) 
             : this(controller, null, null, formParams, null, null, null)
         {
         }
-
 
         public FakeControllerContext( ControllerBase controller, NameValueCollection formParams, NameValueCollection queryStringParams )
             : this(controller, null, null, formParams, queryStringParams, null, null)
@@ -62,5 +65,17 @@ namespace FlickTrap.Web.Specs.MvcFakes
             )
             : base(new FakeHttpContext(new FakePrincipal(new FakeIdentity(userName), roles), formParams, queryStringParams, cookies, sessionItems), new RouteData(), controller)
         { }
+
+        public static SessionStateItemCollection GetSessionCollection(HttpSessionStateBase input)
+        {
+            var collection = new SessionStateItemCollection();
+            if (input != null && input.Count > 0)
+            {
+                foreach (string key in input)
+                    collection[key] = input[key];
+            }
+
+            return collection;
+        }
     }
 }
