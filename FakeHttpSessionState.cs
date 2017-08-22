@@ -69,8 +69,4 @@ namespace FlickTrap.Web.Specs.MvcFakes
             _sessionItems.Remove(name);
         }
     }
-
-   
-
-
 }
